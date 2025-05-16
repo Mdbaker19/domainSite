@@ -12,3 +12,13 @@ body {
 main {
     flex: 1 0 auto;
 }
+
+#canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* let mouse clicks pass through */
+  }
