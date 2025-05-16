@@ -6,8 +6,8 @@
         {
             description: 'Hello there, its my site for my creations and sharing details and such.\n' +
                 '            Site is deployed with AWS Amplify hosting a standard HTML/CSS/JS website -_-\n' +
-                '            Went to Code up in \'20-\'21. I have worked in a few different development positions and have and have a background in the auto industry \n' +
-                '             I enjoy building custom hardware projects for loved ones and remaking classic games to the best of my ability.',
+                '            Went to Code up in \'20-\'21. I have worked in a few different development positions in AWS with Lambdas in Node, React, Spring, Java, JS, Angular, proprietary languages. I have a background in the auto industry. \n' +
+                '             I enjoy building custom hardware projects with Pi Pico and Python for loved ones and remaking classic games to the best of my ability in Haxe Flixel.',
             title: 'About me'
         },
         {
