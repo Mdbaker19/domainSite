@@ -11,6 +11,10 @@
             title: 'About me'
         },
         {
+            description: 'Twilio is set up to send phone numbers to my household so we can tell when our fridge and freezer is not working in the garage. Using Python and Pi Pico set up',
+            title: 'Builds'
+        },
+        {
             description: "Web Mastermind",
             link: "https://mdbaker19.github.io/MasterMind-project/",
             linkText: "Play",
