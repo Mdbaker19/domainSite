@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="mm.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href='https://fonts.googleapis.com/css?family=Press Start 2P' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400&display=swap" rel="stylesheet">
+    <title>Master The Code</title>
+</head>
+<body>
+    <main class="shadow">
+        <h1 id="top">Break Me</h1>
+        <button id="help">How to Play</button>
+        <div class="howToPlay">
+            <p class="descriptionOfGame" id="gameHelp">
+                <button id="removeHelp">X</button><br>
+                The goal is to determine the sequence that is randomly generated from the list of provided options dependent upon the selected game mode
+                by using process of elimination.
+                To begin, you can either 'Start Game' with 6 possible colors or select 'hard mode' first and then start the game with 11 possible colors
+                After selecting hard mode, an additional option to select an 'expert mode' is enabled.
+                Selecting this adds an addition 3 colors to the list of options
+                Upon starting the game, a timer is begins. Solve the code quickly and compete for a spot on the leaderboard.
+                Input your four guesses into the provided area by clicking the buttons and assert them against the hidden code
+                You will be given a response after each guess.
+                'x' amount of red means you have guessed that many correct colors that are also in the correct spot as they are in the hidden sequence (no particular order)
+                'x' amount of white means you have guessed that many correct colors but they are in the wrong spot compared to the hidden sequence (no particular order).
+                Choices can be removed temporarily as you narrow down the solution and brought back with the restore button
+                You have 10 guesses to determine the hidden code!
+            </p>
+        </div>
+        <button id="increaseDiff">Hard Mode</button><p id="difficultyLevel"></p><br>
+        <p class="otherColors" id="otherColors">Hard Mode Adds: <span class="grey">Grey</span>, <span class="olive">Olive</span>, <span class="tan">Tan</span>, <span class="purple">Purple</span> and <span class="lime">Lime</span></p><br>
+        <button id="newGame">Start Game</button>
+        <p class="easyOptions" id="optionsList"><span><strong>Options: </strong></span><span class="blue">Blue</span>, <span class="brown">Brown</span>, <span class="yellow">Yellow</span>, <span class="orange">Orange</span>, <span class="green">Green</span> and <span class="pink">Pink</span></p><br>
+    </main>
+    <textarea rows="8" cols="75" class="notes">
+Not In Sequence:
+
+Possible Colors:
+
+In Sequence:
+    </textarea>
+    <div id="leaderBoardModal">
+        <p>Winner!</p>
+        <p>Game mode: <span id="gameMode"></span></p>
+        <div id="winningSequence">
+            <p class="winningSequence"></p>
+            <p class="winningSequence"></p>
+            <p class="winningSequence"></p>
+            <p class="winningSequence"></p>
+        </div>
+        <p><span id="timer"></span></p>
+        <p><span id="solvedMoves"></span> Moves</p>
+        <div id="form">
+            <input id="name" placeholder="RandomUser">
+        </div>
+        <button id="post">Post Score</button>
+    </div>
+    <div class="gameBoard">
+        <div class="buttonField">
+
+            <div class="colorButtons">
+                <button class="selectors easy" id="blue"></button>
+                <button class="selectors easy" id="saddlebrown"></button>
+                <button class="selectors easy" id="yellow"></button>
+                <button class="selectors easy" id="darkorange"></button>
+                <button class="selectors easy" id="green"></button>
+                <button class="selectors easy" id="hotpink"></button>
+                <button class="selectors hard" id="dimgray"></button>
+                <button class="selectors hard" id="olivedrab"></button>
+                <button class="selectors hard" id="tan"></button>
+                <button class="selectors hard" id="purple"></button>
+                <button class="selectors hard" id="lime"></button>
+                <button class="selectors expert" id="cyan"></button>
+                <button class="selectors expert" id="crimson"></button>
+                <button class="selectors expert" id="aliceblue"></button>
+                <p class="yourGuessSet"><span class="selectedColor" id="pick1"></span><span class="selectedColor" id="pick2"></span><span class="selectedColor" id="pick3"></span><span class="selectedColor" id="pick4"></span></p>
+            </div>
+
+            <div class="buttonSection">
+                <button id="delete" class="options">Clear</button>
+                <button type="submit" id="submit" class="options">Assert</button>
+                <button type="submit" id="remove" class="options">Remove</button>
+                <button type="submit" id="remove-cont" class="options">Remove</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="heading">
+        <h3>Response:</h3>
+        <h4 id="start">-- --</h4>
+    </div>
+    <div class="responses">
+        <div class="guesses">
+            <div class="matrixDivContainer">
+                <p class="matrixNumber">#1</p>
+                <div class="matrixItem">
+                    <span class="yourColor c1">[]</span><span class="yourColor c2">[]</span><span class="yourColor c3">[]</span><span class="yourColor c4">[]</span>
+                </div>
+                <p class="matrixOutput"><span id="0r" class="outputRed">/Red </span>  <span id="0w" class="outputWhite">/White</span></p>
+            </div>
+            <div class="matrixDivContainer">
+                <p class="matrixNumber">#2</p>
+                <div class="matrixItem">
+                    <span class="yourColor c1">[]</span><span class="yourColor c2">[]</span><span class="yourColor c3">[]</span><span class="yourColor c4">[]</span>
+                </div>
+                <p class="matrixOutput"><span id="1r" class="outputRed">/Red </span>  <span id="1w" class="outputWhite">/White</span></p>
+            </div>
+            <div class="matrixDivContainer">
+                <p class="matrixNumber">#3</p>
+                <div class="matrixItem">
+                    <span class="yourColor c1">[]</span><span class="yourColor c2">[]</span><span class="yourColor c3">[]</span><span class="yourColor c4">[]</span>
+                </div>
+                <p class="matrixOutput"><span id="2r" class="outputRed">/Red </span>  <span id="2w" class="outputWhite">/White</span></p>
+            </div>
+            <div class="matrixDivContainer">
+                <p class="matrixNumber">#4</p>
+                <div class="matrixItem">
+                    <span class="yourColor c1">[]</span><span class="yourColor c2">[]</span><span class="yourColor c3">[]</span><span class="yourColor c4">[]</span>
+                </div>
+                <p class="matrixOutput"><span id="3r" class="outputRed">/Red </span>  <span id="3w" class="outputWhite">/White</span></p>
+            </div>
+            <div class="matrixDivContainer">
+                <p class="matrixNumber">#5</p>
+                <div class="matrixItem">
+                    <span class="yourColor c1">[]</span><span class="yourColor c2">[]</span><span class="yourColor c3">[]</span><span class="yourColor c4">[]</span>
+                </div>
+                <p class="matrixOutput"><span id="4r" class="outputRed">/Red </span>  <span id="4w" class="outputWhite">/White</span></p>
+            </div>
+            <div class="matrixDivContainer">
+                <p class="matrixNumber">#6</p>
+                <div class="matrixItem">
+                    <span class="yourColor c1">[]</span><span class="yourColor c2">[]</span><span class="yourColor c3">[]</span><span class="yourColor c4">[]</span>
+                </div>
+                <p class="matrixOutput"><span id="5r" class="outputRed">/Red </span>  <span id="5w" class="outputWhite">/White</span></p>
+            </div>
+            <div class="matrixDivContainer">
+                <p class="matrixNumber">#7</p>
+                <div class="matrixItem">
+                    <span class="yourColor c1">[]</span><span class="yourColor c2">[]</span><span class="yourColor c3">[]</span><span class="yourColor c4">[]</span>
+                </div>
+                <p class="matrixOutput"><span id="6r" class="outputRed">/Red </span>  <span id="6w" class="outputWhite">/White</span></p>
+            </div>
+            <div class="matrixDivContainer">
+                <p class="matrixNumber">#8</p>
+                <div class="matrixItem">
+                    <span class="yourColor c1">[]</span><span class="yourColor c2">[]</span><span class="yourColor c3">[]</span><span class="yourColor c4">[]</span>
+                </div>
+                <p class="matrixOutput"><span id="7r" class="outputRed">/Red </span>  <span id="7w" class="outputWhite">/White</span></p>
+            </div>
+            <div class="matrixDivContainer">
+                <p class="matrixNumber">#9</p>
+                <div class="matrixItem">
+                    <span class="yourColor c1">[]</span><span class="yourColor c2">[]</span><span class="yourColor c3">[]</span><span class="yourColor c4">[]</span>
+                </div>
+                <p class="matrixOutput"><span id="8r" class="outputRed">/Red </span>  <span id="8w" class="outputWhite">/White</span></p>
+            </div>
+            <div class="matrixDivContainer">
+                <p class="matrixNumber">#10</p>
+                <div class="matrixItem">
+                    <span class="yourColor c1">[]</span><span class="yourColor c2">[]</span><span class="yourColor c3">[]</span><span class="yourColor c4">[]</span>
+                </div>
+                <p class="matrixOutput"><span id="9r" class="outputRed">/Red </span>  <span id="9w" class="outputWhite">/White</span></p>
+            </div>
+        </div>
+        <button id="done"><span class="red">Show</span>  <span class="white">Solution</span></button>
+    </div>
+    <div class="answerKey">
+        <h3>Answer key:</h3>
+        <div id="answerLocation">
+            <span>[] | [] | [] | []</span>
+        </div>
+        <button class="bottomButtons" id="anotherRound"><a href="#top"><span id="textCycle1">New </span><span id="textCycle2">Game</span></a></button>
+        <button class="bottomButtons" id="viewLeaderBoard">Leader Board</button>
+    </div>
+    <div id="fullLeaderBoard">
+
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="mm.js"></script>
+</body>
+</html>
