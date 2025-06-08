@@ -1,6 +1,89 @@
 (() => {
 
-    console.log("hello there");
+  const canvas = document.getElementById('canvas');
+  const pointHtml = document.getElementById('shipScore');
+  const hpHtml = document.getElementById('shipHp');
+  let points = 0;
+  let playerHp = 20;
+
+  function isColliding(obj1, obj2) {
+    return (
+      obj1.x < obj2.x + obj2.w &&
+      obj1.x + obj1.w > obj2.x &&
+      obj1.y < obj2.y + obj2.h &&
+      obj1.y + obj1.h > obj2.y
+    );
+  }
+
+  function ran() {
+    let out = Math.random().toFixed(3).toString();;
+    let opts = 'abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_=+[]{};":.,<>/?';
+    for(let i = 0; i < 18; ++i) {
+      out += opts[Math.floor(Math.random() * (opts.length - 1))];
+    }
+    out += Math.random().toFixed(5).toString();
+    return out;
+  }
+  
+
+  function Bullet(x, y) {
+    this.x = x;
+    this.y = y;
+    this.w = 10;
+    this.h = 12;
+    this.id = ran();
+    this.draw = () => {
+      const i = new Image();
+      i.src = 'bullet.png';
+      ctx.drawImage(i, this.x, this.y);
+    };
+
+    this.update = () => {
+      this.move();
+      if (this.y < 0) {
+        return this.id;
+      }
+      this.draw();
+      return null;
+    };
+
+    this.move = () => {
+      this.y -= 10;
+    };
+  }
+
+  function Enemy(x, y) {
+    this.x = x;
+    this.y = y;
+    this.w = 26;
+    this.h = 14;
+    this.id = ran();
+    this.draw = () => {
+      const ib = new Image();
+      ib.src = 'bad.png';
+      ctx.drawImage(ib, this.x, this.y);
+    };
+
+    this.update = () => {
+      this.move();
+      if (this.y > Math.max(2400, canvas.height)) {
+        return this.id;
+      }
+      this.draw();
+      return null;
+    };
+
+    this.move = () => {
+      this.y += 2;
+    };
+  }
+
+  function Ship(x, y) {
+    this.x = x;
+    this.y = y;
+    this.w = 56;
+    this.h = 50;
+  }
 
     const cards = [
         {
@@ -11,12 +94,8 @@
             title: 'About me'
         },
         {
-            description: 'Twilio is set up to send phone numbers to my household so we can tell when our fridge and freezer is not working in the garage. Using Python and Pi Pico set up',
-            title: 'Builds'
-        },
-        {
-            description: "Web Mastermind",
-            link: "https://mdbaker19.github.io/MasterMind-project/",
+            description: "Web Mastermind Built in vanilla JS CSS HTML and Jquery. User leader board posted to AWS Dynamo DB",
+            link: "mm.html",
             linkText: "Play",
             image: './webmm.png'
         },
@@ -39,7 +118,7 @@
         if (basic) {
             return `
               <div class="row">
-                <div class="col s12 m7 l5 offset-m2 offset-l3">
+                <div class="col s12 m7 l5 offset-m2 offset-l3" style=opacity:.6>
                   <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
                       <span class="card-title">${data.title}</span>
@@ -52,7 +131,7 @@
         }
         return `
           <div class="row">
-            <div class="col s12 m7 l5 offset-m2 offset-l3">
+            <div class="col s12 m7 l5 offset-m2 offset-l3" style=opacity:.6>
               <div class="card">
                 <div class="card-image">
                   <img src="${data.image}">
@@ -71,8 +150,25 @@
 
 
 
-    const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
+
+    const playerShip = new Ship();
+
+    const enemies = [];
+    const bullets = [];
+
+    const img = new Image();
+    img.src = 'ship.png';
+    let mx = 0;
+    let my = 0;
+
+    img.onload = function() {
+      draw();
+    };
+
+    img.onerror = function() {
+      console.error('Image failed to load.');
+    };
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -81,27 +177,82 @@
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    const pos = [];
-
     window.addEventListener('mousemove', (e) => {
-      pos.push({ x: e.clientX, y: e.clientY });
-      if (pos.length > 100) pos.shift(); // keep last 100 points
+      mx = e.clientX - (playerShip.w / 2);
+      my = e.clientY - (playerShip.h / 2);
+      playerShip.x = mx;
+      playerShip.y = my;
     });
 
-    function draw() {
-      ctx.fillStyle = '#add8e6';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      for (let i = 0; i < pos.length; i++) {
-        const { x, y } = pos[i];
-        ctx.fillStyle = `rgba(0,0,0,${i / pos.length})`; // fade tail
-        ctx.beginPath();
-        ctx.arc(x, y, 3, 0, Math.PI * 2);
-        ctx.fill();
+    window.addEventListener('click', (e) => {
+      console.log('clicking')
+      let xc = mx;
+      if (Math.random() > .5) {
+        xc += Math.floor(playerShip.w * .8);
       }
+      bullets.push(new Bullet(xc, my));
+    });
+
+    function doBullets() {
+      for (let i = bullets.length - 1; i > 0; --i) {
+        let bullet = bullets[i];
+        let id = bullet.update();
+        if (id) {
+          bullets.splice(i, 1);
+          return;
+        }
+         else {
+          for (let e = enemies.length - 1; e > 0; --e) {
+            if (isColliding(enemies[e], bullet)){
+              enemies.splice(e, 1);
+              bullets.splice(i, 1);
+              points++;
+              return;
+            }
+          }
+        }
+      }
+    }
+
+    function doEnemies() {
+      for (let i = enemies.length - 1; i > 0; --i) {
+        let enemy = enemies[i]
+        let id = enemy.update();
+        if (id) {
+          enemies.splice(i, 1);
+          return;
+        } else {
+          if (isColliding(playerShip, enemy)) {
+            enemies.splice(i, 1);
+            playerHp--;
+            playerHp = Math.max(0, playerHp);
+            return;
+          }
+        }
+      }
+    }
+
+    setInterval(() => {
+      enemies.push(new Enemy(Math.floor(Math.random() * canvas.width), 0));
+    }, 1600);
+
+    function draw() {
+      ctx.fillStyle = '#375661';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      if (playerHp <= 0) {
+        ctx.globalAlpha = 0.2;
+      }
+      ctx.drawImage(img, mx, my);
+      ctx.globalAlpha = 1.0
+
+      doEnemies();
+      doBullets();
+
+      pointHtml.innerText = points;
+      hpHtml.innerText = playerHp
 
       requestAnimationFrame(draw);
     }
-    draw();
 
 })();

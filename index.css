@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background-color: lightblue;
+    background-color: rgb(55, 86, 97);
     display: flex;
     min-height: 100vh;
     flex-direction: column;
