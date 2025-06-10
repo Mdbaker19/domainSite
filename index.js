@@ -232,9 +232,21 @@
       }
     }
 
-    setInterval(() => {
-      enemies.push(new Enemy(Math.floor(Math.random() * canvas.width), 0));
-    }, 1600);
+    let intervalRunner;
+    function intRunner() {
+      intervalRunner = setInterval(() => {
+        enemies.push(new Enemy(Math.floor(Math.random() * canvas.width), 0));
+      }, 1600);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        clearInterval(intervalRunner);
+      } else {
+        intRunner();
+      }
+    });
+    intRunner();
 
     function draw() {
       ctx.fillStyle = '#375661';
