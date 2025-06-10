@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMS Opt-In Consent</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; padding: 1rem; }
+    label { display: block; margin-top: 1rem; }
+    button { margin-top: 1rem; padding: 0.5rem 1rem; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Subscribe to SMS Alerts</h1>
+  <p>Sign up to receive important updates and exclusive offers via SMS. By subscribing, you agree to receive automated text messages from SengineTech LLC.</p>
+
+  <form id="optInForm">
+    <label>
+      <input type="checkbox" id="consentCheckbox" required />
+      I consent to receive SMS messages from SengineTech LLC at the phone number I provide. Message frequency varies. Message & data rates may apply. Reply STOP to opt out at any time.
+    </label>
+
+    <button type="submit">Subscribe</button>
+  </form>
+
+  <p style="font-size: 0.9rem; margin-top: 2rem;">
+    Privacy Notice: Your phone number will only be used for SMS communication as described. We will never share your data with third parties without your consent. See our <a href="privacy.html" target="_blank">Privacy Policy</a> for more details.
+  </p>
+
+  <script>
+    document.getElementById('optInForm').addEventListener('submit', function(event) {
+      if (!document.getElementById('consentCheckbox').checked) {
+        alert('You must consent to receive messages to subscribe.');
+        event.preventDefault();
+      } else {
+        alert('Thank you for subscribing!');
+      }
+    });
+  </script>
+</body>
+</html>
